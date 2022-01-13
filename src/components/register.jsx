@@ -2,20 +2,26 @@ import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase-config';
 import { style } from '@mui/system';
-
-
+import { useDispatch } from 'react-redux';
+import * as ActionCreators from '../actions/Actions';
 
 function Register(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const  registerUser = async () => {
+    const dispatch = useDispatch();
+
+    async function registerUser() {
         try{
-            const user = await createUserWithEmailAndPassword(auth, email, password);
-            console.log(`LogedIn: ${user}`);
+            //const user = await createUserWithEmailAndPassword(auth, email, password);
+            let userData = {
+                email,
+                password
+            }
+
+            dispatch(ActionCreators.postUserData(userData));
+            console.log(userData);
         } catch(error){
             console.log(error.message);
         }
