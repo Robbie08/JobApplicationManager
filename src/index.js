@@ -5,6 +5,7 @@ import './index.css';
 import App from './App';
 import Home from './components/home';
 import Login from './components/login';
+import Register from './components/register';
 
 const rootElement = document.getElementById("root");
 
@@ -13,7 +14,9 @@ render(
     <Routes>
       <Route path="/" element={<App/>}/>
       <Route path="/login" element={<Login/>}/>
+      <Route path="/register" element={<Register/>}/>
       <Route path="/home" element={<Home/>}/>
+      
     </Routes>
   </BrowserRouter>, 
   rootElement);
