@@ -10,22 +10,29 @@ import { useNavigate } from 'react-router-dom';
 function Register(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    const [verifyPassword, setVerifyPassword] = useState('');
+    const [error, setError] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     async function registerUser() {
-        try{
-            //const user = await createUserWithEmailAndPassword(auth, email, password);
-            let userData = {
-                email,
-                password
-            }
+        
+        if(verifyPassword !== password){
+            setError("Passwords don't match, please try again");
+        }else{
+            setError('');
+            try{
+                //const user = await createUserWithEmailAndPassword(auth, email, password);
+                let userData = {
+                    email,
+                    password
+                }
 
-            dispatch(ActionCreators.postUserData(userData));
-            console.log(userData);
-        } catch(error){
-            console.log(error.message);
+                dispatch(ActionCreators.postUserData(userData));
+                console.log(userData);
+            } catch(error){
+                console.log(error.message);
+            }
         }
     };
 
@@ -41,16 +48,21 @@ function Register(){
                     <TextField id="outlined-basic" label="email" variant="outlined" onChange={iEmail => setEmail(iEmail.target.value)} style={style.Input}/>
                     <br></br>
                     <TextField id="outlined-basic" type="password" label="password" onChange={iPassword => setPassword(iPassword.target.value)} variant="outlined" style={style.Input} />  
+                    <br></br>
+                    <TextField id="outlined-basic" type="password" label="verify password" onChange={iVerify => setVerifyPassword(iVerify.target.value)} variant="outlined" style={style.Input} />  
                 </div>
                 <div className='buttons' style={style.Buttons}>
                     <Button variant="contained" style={style.Button} onClick={registerUser} >Register</Button>
                     <br></br>
                     <Button variant="outlined"  style={style.Button} onClick={login} >Login</Button>
                 </div>
+                <h4 style={{color: '#FF0000'}}>{error}</h4>
             </Container>
         </div>
     );
 }
+
+
 
 style.Button = {
     marginTop:10,
