@@ -5,12 +5,14 @@ import Container from '@mui/material/Container';
 import { style } from '@mui/system';
 import { useDispatch } from 'react-redux';
 import * as ActionCreators from '../actions/Actions';
+import { useNavigate } from 'react-router-dom';
 
 function Register(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     async function registerUser() {
         try{
@@ -27,8 +29,8 @@ function Register(){
         }
     };
 
-    const login = async () => {
-        console.log("Register button was clicked")
+    function login() {
+        navigate("/login");
     }
 
     return(

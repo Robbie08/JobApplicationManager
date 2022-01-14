@@ -3,19 +3,22 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import { style } from '@mui/system';
+import { useNavigate } from 'react-router-dom';
 
 
 
 function Login(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     function loginUser(){
         console.log(`Email: ${email} \nPassword: ${password}`);
     }
 
     function register(){
-        console.log("Register button was clicked")
+        console.log("Register button was clicked");
+        navigate("/register");
     }
 
     return(
