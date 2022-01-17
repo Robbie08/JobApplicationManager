@@ -1,19 +1,13 @@
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
-import { auth } from '../firebase-config';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import {  put, takeLatest } from 'redux-saga/effects'
 import * as ActionCreators from '../actions/Actions';
 import * as ActionTypes from '../actions/ActionTypes';
 
+
 // Worker saga: will be fired on USER_REGISTER_REQ actions
 export function* postUserData(data){
-    
-    console.log(`email: ${data.userData.email} \npassword: ${data.userData.password}`);
     try{
-        const user = yield createUserWithEmailAndPassword(auth, data.userData.email, data.userData.password);
-        console.log(user);
+        console.log(`email: ${data.userData.email} \npassword: ${data.userData.password}`);
         yield put(ActionCreators.setUserData(data.userData));
-
-        // on success we should move to the home screen
     }catch(error){
         console.log(error);
     }

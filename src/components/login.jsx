@@ -4,16 +4,50 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import { style } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
-
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase-config';
+import { useDispatch } from 'react-redux';
+import * as ActionsCreators from '../actions/Actions';
 
 
 function Login(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const navigate = useNavigate();
+    const [error, setError] = useState('');
 
-    function loginUser(){
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    async function loginUser(){
         console.log(`Email: ${email} \nPassword: ${password}`);
+
+        if(email === null || email.length === 0 || email === ''){
+            setError("Email field is empty");
+        }
+        else if(password === null || password.length === 0 || password === ''){
+            setError("Password field is empty");
+        }else{
+            try{
+                await signInWithEmailAndPassword(auth, email, password)
+                .then((user) => {
+                    console.log(user);
+                    // dispatch our action to update the user info
+                    let loginStatus = true;
+                    let userData = {
+                        email,
+                        password,
+                        loginStatus
+                    }
+                    dispatch(ActionsCreators.postUserData(userData));
+                    navigate("/home");
+                }).catch((error) => {
+                    setError("Error with loging credentials!");
+                    console.log(error);
+                }) 
+            }catch(error){
+                console.log(error);
+            }
+        }   
     }
 
     function register(){
@@ -35,6 +69,9 @@ function Login(){
                     <br></br>
                     <Button variant="outlined"  style={style.Button} onClick={register} >Register</Button>
                 </div>
+                <br></br>
+
+                <h4>{error}</h4>
             </Container>
         </div>
     );

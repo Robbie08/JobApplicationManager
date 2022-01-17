@@ -4,14 +4,17 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import { style } from '@mui/system';
 import { useDispatch } from 'react-redux';
-import * as ActionCreators from '../actions/Actions';
+import * as ActionsCreators from '../actions/Actions';
 import { useNavigate } from 'react-router-dom';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase-config';
 
 function Register(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [verifyPassword, setVerifyPassword] = useState('');
     const [error, setError] = useState('');
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -19,17 +22,32 @@ function Register(){
         
         if(verifyPassword !== password){
             setError("Passwords don't match, please try again");
-        }else{
+        }
+        else if(email === null || email.length === 0 || email === ''){
+            setError("Email field is empty");
+        }
+        else if(password === null || password.length === 0 || password === ''){
+            setError("Password field is empty");
+        }
+        else{
             setError('');
             try{
-                //const user = await createUserWithEmailAndPassword(auth, email, password);
-                let userData = {
-                    email,
-                    password
-                }
-
-                dispatch(ActionCreators.postUserData(userData));
-                console.log(userData);
+                await createUserWithEmailAndPassword(auth, email, password)
+                .then((user) => {
+                    console.log(user);
+                    // dispatch our action to update the user info
+                    let loginStatus = true;
+                    let userData = {
+                        email,
+                        password,
+                        loginStatus
+                    }
+                    dispatch(ActionsCreators.postUserData(userData));
+                    navigate("/home");
+                }).catch((error) => {
+                    setError("Error with loging credentials!");
+                    console.log(error);
+                })
             } catch(error){
                 console.log(error.message);
             }

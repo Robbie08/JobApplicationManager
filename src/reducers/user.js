@@ -2,7 +2,8 @@ import * as ActionTypes from '../actions/ActionTypes';
 
 const initialState = {
     email: 'someEmail@gmail.com',
-    password: 'blahblah1'
+    password: 'blahblah1',
+    loginStatus: false
 }
 
 export function setUserData(state, action) {
