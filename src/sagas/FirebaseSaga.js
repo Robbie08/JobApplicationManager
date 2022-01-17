@@ -14,8 +14,6 @@ export function* postUserData(data){
     }
 }
 
-
-
 /*
   Does not allow concurrent fetches of user. If "USER_FETCH_REQUESTED" gets
   dispatched while a fetch is already pending, that pending fetch is cancelled

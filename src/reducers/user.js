@@ -2,8 +2,8 @@ import * as ActionTypes from '../actions/ActionTypes';
 
 const initialState = {
     email: 'someEmail@gmail.com',
-    password: 'blahblah1',
-    loginStatus: false
+    loginStatus: false,
+    firebaseData: {}
 }
 
 export function getUserData(state, action){

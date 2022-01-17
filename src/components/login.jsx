@@ -35,8 +35,8 @@ function Login(){
                     let loginStatus = true;
                     let userData = {
                         email,
-                        password,
-                        loginStatus
+                        loginStatus,
+                        user
                     }
                     dispatch(ActionsCreators.postUserData(userData));
                     navigate("/home");
